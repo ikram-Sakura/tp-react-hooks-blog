@@ -1,59 +1,58 @@
 import React, { useState } from 'react';
-// TODO: Exercice 3 - Importer useTheme
+import usePosts from '../hooks/usePosts';
+import '../styles/PostSearch.css';
 
-/**
- * Composant de recherche de posts
- * @param {Object} props - Propriétés du composant
- * @param {Function} props.onSearch - Fonction appelée lors de la saisie
- * @param {Function} props.onTagSelect - Fonction appelée lors de la sélection d'un tag
- * @param {Array} props.availableTags - Liste des tags disponibles
- * @param {string} props.selectedTag - Tag actuellement sélectionné
- */
-function PostSearch({ 
-  onSearch, 
-  onTagSelect, 
-  availableTags = [], 
-  selectedTag = '' 
-}) {
-  const [searchInput, setSearchInput] = useState('');
-  
-  // TODO: Exercice 3 - Utiliser le hook useTheme
-  
-  // TODO: Exercice 3 - Utiliser useCallback pour optimiser le gestionnaire
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setSearchInput(value);
-    onSearch(value);
-  };
-  
-  // TODO: Exercice 3 - Appliquer les classes CSS en fonction du thème
-  const themeClasses = '';
-  
+const PostSearch = () => {
+  const { posts, loading, error } = usePosts();
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredPosts = posts.filter((post) =>
+    post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    post.body.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (loading) return <div className="loading-spinner"></div>;
+  if (error) return <div className="error-message">Error: {error}</div>;
+
   return (
-    <div className="mb-4">
-      <div className="row">
-        <div className="col-md-8 mb-3 mb-md-0">
-          <div className="input-group">
-            <span className="input-group-text">
-              <i className="bi bi-search"></i>
-            </span>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Rechercher des articles..."
-              value={searchInput}
-              onChange={handleSearchChange}
-              aria-label="Rechercher"
-            />
-            {/* TODO: Exercice 1 - Ajouter le bouton pour effacer la recherche */}
-          </div>
+    <div className="search-container">
+      <div className="search-header">
+        <h1>Search Articles</h1>
+        <div className="search-bar-container">
+          <input
+            type="text"
+            placeholder="Search posts by title or content..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+          <button className="search-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+          </button>
         </div>
-        
-        {/* TODO: Exercice 4 - Ajouter le sélecteur de tags */}
+        <p className="results-count">{filteredPosts.length} articles found</p>
+      </div>
+
+      <div className="search-results">
+        {filteredPosts.map((post) => (
+          <article key={post.id} className="search-result-card">
+            <h2 className="result-title">{post.title}</h2>
+            <p className="result-content">{post.body}</p>
+            <div className="result-meta">
+              <div className="result-tags">
+                {post.tags.map((tag) => (
+                  <span key={tag} className="tag">{tag}</span>
+                ))}
+              </div>
+              <span className="result-reactions">❤️ {post.reactions || 0}</span>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   );
-}
+};
 
-// TODO: Exercice 3 - Utiliser React.memo pour optimiser les rendus
 export default PostSearch;

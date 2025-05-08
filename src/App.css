@@ -55,3 +55,20 @@ body,
 }
 
 /* TODO: Exercice 3 - Ajouter des styles spécifiques au mode sombre */
+/* Global 3D Perspective */
+body {
+  perspective: 1000px;
+}
+
+/* Parallax Scrolling Effect */
+.blog-container, .search-container {
+  transform-style: preserve-3d;
+}
+
+.blog-header h1 {
+  transform: translateZ(50px);
+}
+
+.blog-subtitle {
+  transform: translateZ(30px);
+}

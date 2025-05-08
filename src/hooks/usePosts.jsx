@@ -1,59 +1,53 @@
 import { useState, useEffect } from 'react';
-// TODO: Exercice 2 - Importer useDebounce
 
-/**
- * Hook personnalisé pour gérer les posts du blog
- * @param {Object} options - Options de configuration
- * @param {string} options.searchTerm - Terme de recherche
- * @param {string} options.tag - Tag à filtrer
- * @param {number} options.limit - Nombre d'éléments par page
- * @param {boolean} options.infinite - Mode de chargement infini vs pagination
- * @returns {Object} État et fonctions pour gérer les posts
- */
-function usePosts({ searchTerm = '', tag = '', limit = 10, infinite = true } = {}) {
-  // État local pour les posts
+const usePosts = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  // TODO: Exercice 1 - Ajouter les états nécessaires pour la pagination
-  
-  // TODO: Exercice 4 - Ajouter l'état pour le post sélectionné
-  
-  // TODO: Exercice 2 - Utiliser useDebounce pour le terme de recherche
-  
-  // TODO: Exercice 3 - Utiliser useCallback pour construire l'URL de l'API
-  const buildApiUrl = (skip = 0) => {
-    // Construire l'URL en fonction des filtres
-    return 'https://dummyjson.com/posts';
-  };
-  
-  // TODO: Exercice 1 - Implémenter la fonction pour charger les posts
-  const fetchPosts = async (reset = false) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [limit, setLimit] = useState(10);
+
+  const fetchPosts = async () => {
     try {
       setLoading(true);
-      // Appeler l'API et mettre à jour les états
+      const response = await fetch(`https://dummyjson.com/posts?limit=${limit}&skip=${(currentPage - 1) * limit}`);
+      const data = await response.json();
+      
+    
+      const transformedPosts = data.posts.map(post => ({
+        ...post,
+        reactions: typeof post.reactions === 'object' 
+          ? (post.reactions.likes || 0) + (post.reactions.dislikes || 0)
+          : post.reactions || 0
+      }));
+      
+      setPosts(transformedPosts);
+      setTotalPages(Math.ceil(data.total / limit));
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
-  
-  // TODO: Exercice 1 - Utiliser useEffect pour charger les posts quand les filtres changent
-  
-  // TODO: Exercice 4 - Implémenter la fonction pour charger plus de posts
-  
-  // TODO: Exercice 3 - Utiliser useMemo pour calculer les tags uniques
-  
-  // TODO: Exercice 4 - Implémenter la fonction pour charger un post par son ID
-  
-  return {
-    posts,
-    loading,
-    error,
-    // Retourner les autres états et fonctions
+
+  useEffect(() => {
+    fetchPosts();
+  }, [currentPage, limit]);
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
   };
-}
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  return { posts, loading, error, currentPage, totalPages, goToNextPage, goToPreviousPage };
+};
 
 export default usePosts;

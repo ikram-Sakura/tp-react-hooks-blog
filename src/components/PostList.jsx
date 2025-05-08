@@ -1,61 +1,73 @@
 import React from 'react';
-// TODO: Exercice 3 - Importer useTheme
-// TODO: Exercice 4 - Importer useIntersectionObserver
-import LoadingSpinner from './LoadingSpinner';
+import usePosts from '../hooks/usePosts';
+import '../styles/PostList.css';
 
-/**
- * Composant d'affichage de la liste des posts
- * @param {Object} props - Propriétés du composant
- * @param {Array} props.posts - Liste des posts à afficher
- * @param {boolean} props.loading - Indicateur de chargement
- * @param {boolean} props.hasMore - Indique s'il y a plus de posts à charger
- * @param {Function} props.onLoadMore - Fonction pour charger plus de posts
- * @param {Function} props.onPostClick - Fonction appelée au clic sur un post
- * @param {Function} props.onTagClick - Fonction appelée au clic sur un tag
- * @param {boolean} props.infiniteScroll - Mode de défilement infini activé ou non
- */
-function PostList({
-  posts = [],
-  loading = false,
-  hasMore = false,
-  onLoadMore,
-  onPostClick,
-  onTagClick,
-  infiniteScroll = true
-}) {
-  // TODO: Exercice 3 - Utiliser le hook useTheme
+const PostList = () => {
+  const { posts, loading, error, currentPage, totalPages, goToNextPage, goToPreviousPage } = usePosts();
   
-  // TODO: Exercice 4 - Utiliser useIntersectionObserver pour le défilement infini
-  
-  // TODO: Exercice 3 - Utiliser useCallback pour les gestionnaires d'événements
-  const handlePostClick = (post) => {
-    if (onPostClick) {
-      onPostClick(post);
-    }
-  };
-  
-  const handleTagClick = (e, tag) => {
-    e.stopPropagation(); // Éviter de déclencher le clic sur le post
-    if (onTagClick) {
-      onTagClick(tag);
-    }
-  };
-  
-  // TODO: Exercice 1 - Gérer le cas où il n'y a pas de posts
-  
+const animatedPosts = posts.map((post, index) => ({
+  ...post,
+  style: {
+    '--index': index % 10, 
+  }
+}));
+
+
+{animatedPosts.map((post) => (
+  <article key={post.id} className="post-card" style={post.style}>
+    {/* ... rest of your card content ... */}
+  </article>
+))}
+
+  if (loading) return <div className="loading-spinner"></div>;
+  if (error) return <div className="error-message">Error: {error}</div>;
+
   return (
-    <div className="post-list">
-      {/* TODO: Exercice 1 - Afficher la liste des posts */}
-      
-      {/* Afficher le spinner de chargement */}
-      {loading && <LoadingSpinner />}
-      
-      {/* TODO: Exercice 4 - Ajouter la référence pour le défilement infini */}
-      
-      {/* TODO: Exercice 1 - Ajouter le bouton "Charger plus" pour le mode non-infini */}
+    <div className="blog-container">
+      <header className="blog-header">
+        <h1>Modern Blog</h1>
+        <p className="blog-subtitle">Discover the latest articles and insights</p>
+      </header>
+
+      <div className="posts-grid">
+        {posts.map((post) => (
+          <article key={post.id} className="post-card">
+            <div className="post-card-content">
+              <h2 className="post-title">{post.title}</h2>
+              <p className="post-excerpt">{post.body.length > 150 ? `${post.body.substring(0, 150)}...` : post.body}</p>
+              <div className="post-tags">
+                {post.tags.map((tag) => (
+                  <span key={tag} className="tag">{tag}</span>
+                ))}
+              </div>
+              <div className="post-meta">
+                <span className="reactions">❤️ {post.reactions || 0} reactions</span>
+                <button className="read-more">Read more</button>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="pagination">
+        <button 
+          onClick={goToPreviousPage} 
+          disabled={currentPage === 1}
+          className="pagination-button"
+        >
+          Previous
+        </button>
+        <span className="page-info">Page {currentPage} of {totalPages}</span>
+        <button 
+          onClick={goToNextPage} 
+          disabled={currentPage === totalPages}
+          className="pagination-button"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
-}
+};
 
-// TODO: Exercice 3 - Utiliser React.memo pour optimiser les rendus
 export default PostList;
