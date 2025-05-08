@@ -62,12 +62,9 @@ Le composant PostList (dans src/components/PostList.js) reçoit les données des
 
 ✅ 1.3 Recherche avec PostSearch
 Le composant PostSearch permet à l'utilisateur de rechercher des posts par titre ou contenu. Lorsqu'on tape dans l'input, un état de recherche est mis à jour et filtré dynamiquement sur les posts via le hook useEffect.
-
+```
 ![Screenshot 2025-05-08 210829](https://github.com/user-attachments/assets/985a110b-6c5b-4ce4-8559-d8fcdac1dac2)
 ![Screenshot 2025-04-28 181405](https://github.com/user-attachments/assets/13773767-a997-4e9a-80ed-9515a09fff49)
-
-
-```
 
 ### Exercice 2 : Hooks Personnalisés
 #### Objectif : Créer des hooks réutilisables
