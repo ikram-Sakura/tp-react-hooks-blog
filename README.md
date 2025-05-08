@@ -54,8 +54,19 @@ Pour chaque exercice :
 
 _Votre réponse pour l'exercice 1 :_
 ```
-Expliquez votre solution ici
-[Ajoutez vos captures d'écran]
+✅ 1.1 Récupération des posts avec usePosts
+J'ai créé un hook personnalisé usePosts dans src/hooks/usePosts.js qui utilise useState et useEffect pour récupérer les posts depuis l'API https://dummyjson.com/posts. Les données sont stockées dans un état local et mises à jour lors du chargement.
+
+✅ 1.2 Affichage des posts avec PostList
+Le composant PostList (dans src/components/PostList.js) reçoit les données des posts via props et les affiche sous forme de liste. Chaque post montre le titre et le corps du texte.
+
+✅ 1.3 Recherche avec PostSearch
+Le composant PostSearch permet à l'utilisateur de rechercher des posts par titre ou contenu. Lorsqu'on tape dans l'input, un état de recherche est mis à jour et filtré dynamiquement sur les posts via le hook useEffect.
+
+![Screenshot 2025-05-08 210829](https://github.com/user-attachments/assets/985a110b-6c5b-4ce4-8559-d8fcdac1dac2)
+![Screenshot 2025-04-28 181405](https://github.com/user-attachments/assets/13773767-a997-4e9a-80ed-9515a09fff49)
+
+
 ```
 
 ### Exercice 2 : Hooks Personnalisés
