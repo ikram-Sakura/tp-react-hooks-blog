@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import PostList from './components/PostList';
 import PostSearch from './components/PostSearch';
 import ThemeToggle from './components/ThemeToggle';
-import useTheme from './hooks/useTheme';
+import useTheme from './hooks/useTheme';  
 import usePosts from './hooks/usePosts';
 import useLocalStorage from './hooks/useLocalStorage';
 
@@ -11,6 +11,8 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState(null);
   const [scrollMode, setScrollMode] = useLocalStorage('scrollMode', 'pagination');
+
+  const { theme } = useTheme(); 
 
   const {
     posts,
@@ -22,9 +24,11 @@ function App() {
     goToPreviousPage
   } = usePosts(scrollMode); 
 
+
+    document.body.className = theme; 
+
   return (
     <div className={`container py-4 ${scrollMode === 'pagination' ? 'pagination-mode' : 'infinite-mode'}`} style={{ maxWidth: '1400px' }}>
-
       <header className="pb-3 mb-4 border-bottom">
         <div className="d-flex justify-content-between align-items-center">
           <h1 className="display-5 fw-bold">Blog</h1>
