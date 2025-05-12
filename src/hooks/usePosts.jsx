@@ -1,28 +1,34 @@
 import { useState, useEffect } from 'react';
 
-const usePosts = () => {
+const usePosts = (scrollMode = 'infinite') => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [limit, setLimit] = useState(10);
+  const limit = 10;
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (page) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const response = await fetch(`https://dummyjson.com/posts?limit=${limit}&skip=${(currentPage - 1) * limit}`);
-      const data = await response.json();
-      
-    
-      const transformedPosts = data.posts.map(post => ({
+      const skip = (page - 1) * limit;
+      const res = await fetch(`https://dummyjson.com/posts?limit=${limit}&skip=${skip}`);
+      const data = await res.json();
+
+      const transformed = data.posts.map(post => ({
         ...post,
-        reactions: typeof post.reactions === 'object' 
+        reactions: typeof post.reactions === 'object'
           ? (post.reactions.likes || 0) + (post.reactions.dislikes || 0)
           : post.reactions || 0
       }));
-      
-      setPosts(transformedPosts);
+
+    
+      if (scrollMode === 'infinite') {
+        setPosts(prev => [...prev, ...transformed]);
+      } else {
+        setPosts(transformed);
+      }
+
       setTotalPages(Math.ceil(data.total / limit));
     } catch (err) {
       setError(err.message);
@@ -32,22 +38,26 @@ const usePosts = () => {
   };
 
   useEffect(() => {
-    fetchPosts();
-  }, [currentPage, limit]);
+    fetchPosts(currentPage);
+  }, [currentPage, scrollMode]);
 
   const goToNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
+    if (currentPage < totalPages) setCurrentPage(p => p + 1);
   };
 
   const goToPreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
+    if (currentPage > 1) setCurrentPage(p => p - 1);
   };
 
-  return { posts, loading, error, currentPage, totalPages, goToNextPage, goToPreviousPage };
+  return {
+    posts,
+    loading,
+    error,
+    currentPage,
+    totalPages,
+    goToNextPage,
+    goToPreviousPage
+  };
 };
 
 export default usePosts;

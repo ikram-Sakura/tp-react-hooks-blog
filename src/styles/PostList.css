@@ -32,6 +32,10 @@
     background: white;
     border-radius: 8px;
     overflow: hidden;
+    width: 600px;
+    height: 300px;
+    margin-right: 70px;
+    margin-left: -70px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
@@ -104,7 +108,19 @@
     align-items: center;
     gap: 1rem;
     margin-top: 2rem;
+    
   }
+
+  .pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;     
+    gap: 1rem;
+    margin-top: 2rem;
+    width: 100%;
+    text-align: center;
+  }
+  
   
   .pagination-button {
     padding: 0.5rem 1rem;
@@ -113,6 +129,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    
     transition: background 0.3s ease;
   }
   
@@ -190,6 +207,7 @@
   .tag {
     transition: all 0.3s ease;
     transform: translateZ(20px);
+    
   }
   
   .tag:hover {
@@ -244,3 +262,81 @@
   .tag:nth-child(even):hover {
     transform: rotateY(-15deg) translateZ(20px);
   }
+ 
+.blog-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .blog-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .blog-subtitle {
+    color: #666;
+  }
+  
+  .posts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .post-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post-title {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .post-excerpt {
+    margin: 10px 0;
+    color: #444;
+  }
+  
+  .tag {
+    display: inline-block;
+    background: #eee;
+    padding: 4px 8px;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-size: 0.8rem;
+    
+  }
+  
+  .post-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
+  
+  .read-more {
+    background: #007BFF;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .loading-spinner {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  .infinite-loader {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  

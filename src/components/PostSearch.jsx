@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import usePosts from '../hooks/usePosts';
+import useDebounce from '../hooks/useDebounce';
 import '../styles/PostSearch.css';
 
 const PostSearch = () => {
+  
   const { posts, loading, error } = usePosts();
   const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  
 
   const filteredPosts = posts.filter((post) =>
-    post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    post.body.toLowerCase().includes(searchTerm.toLowerCase())
+    post.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+    post.body.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
   );
-
+  
   if (loading) return <div className="loading-spinner"></div>;
   if (error) return <div className="error-message">Error: {error}</div>;
 

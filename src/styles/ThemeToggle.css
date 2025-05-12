@@ -1,0 +1,24 @@
+.theme-toggle-button {
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+
+body[data-theme='light'] {
+  --primary-bg: #ffffff;
+  --primary-text: #000000;
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
+}
+
+body[data-theme='dark'] {
+  --primary-bg: #121212;
+  --primary-text: #ffffff;
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
+}

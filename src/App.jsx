@@ -1,55 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import './App.css';
 import PostList from './components/PostList';
 import PostSearch from './components/PostSearch';
-// TODO: Exercice 3 - Importer ThemeToggle
-// TODO: Exercice 3 - Importer ThemeProvider et useTheme
-// TODO: Exercice 1 - Importer le hook usePosts
-// TODO: Exercice 2 - Importer le hook useLocalStorage
+import ThemeToggle from './components/ThemeToggle';
+import useTheme from './hooks/useTheme';
+import usePosts from './hooks/usePosts';
+import useLocalStorage from './hooks/useLocalStorage';
 
 function App() {
-  // État local pour la recherche
   const [searchTerm, setSearchTerm] = useState('');
-  // TODO: Exercice 4 - Ajouter l'état pour le tag sélectionné
-  
-  // TODO: Exercice 1 - Utiliser le hook usePosts pour récupérer les posts
-  // Exemple: const { posts, loading, error } = usePosts();
-  
-  // TODO: Exercice 2 - Utiliser useLocalStorage pour le mode de défilement
-  
-  // TODO: Exercice 3 - Utiliser useCallback pour les gestionnaires d'événements
-  
-  // Gestionnaire pour la recherche
-  const handleSearchChange = (term) => {
-    setSearchTerm(term);
-  };
-  
-  // TODO: Exercice 4 - Ajouter le gestionnaire pour la sélection de tag
-  
+  const [selectedTag, setSelectedTag] = useState(null);
+  const [scrollMode, setScrollMode] = useLocalStorage('scrollMode', 'pagination');
+
+  const {
+    posts,
+    loading,
+    error,
+    currentPage,
+    totalPages,
+    goToNextPage,
+    goToPreviousPage
+  } = usePosts(scrollMode); 
+
   return (
-    <div className="container py-4">
+    <div className={`container py-4 ${scrollMode === 'pagination' ? 'pagination-mode' : 'infinite-mode'}`} style={{ maxWidth: '1400px' }}>
+
       <header className="pb-3 mb-4 border-bottom">
         <div className="d-flex justify-content-between align-items-center">
           <h1 className="display-5 fw-bold">Blog</h1>
-          {/* TODO: Exercice 3 - Ajouter le ThemeToggle */}
+          <ThemeToggle />
+          <div className="ms-3">
+            <label htmlFor="scrollModeSelect" className="me-2">Scroll Mode:</label>
+            <select
+              id="scrollModeSelect"
+              value={scrollMode}
+              onChange={(e) => setScrollMode(e.target.value)}
+              className="form-select"
+              style={{ width: '160px', display: 'inline-block' }}
+            >
+              <option value="pagination">Pagination</option>
+              <option value="infinite">Infinite Scroll</option>
+            </select>
+          </div>
         </div>
       </header>
-      
+
       <main>
-        <PostSearch onSearch={handleSearchChange} />
-        
-        {/* TODO: Exercice 1 - Afficher un message d'erreur si nécessaire */}
-        
-        {/* TODO: Exercice 4 - Ajouter le composant PostDetails */}
-        
-        {/* TODO: Exercice 1 - Passer les props nécessaires à PostList */}
-        <PostList />
+        <PostSearch onSearch={setSearchTerm} />
+
+        {error && <div className="alert alert-danger">Erreur: {error}</div>}
+        {loading && posts.length === 0 && <div className="alert alert-info">Chargement des articles...</div>}
+
+        <PostList
+          posts={posts}
+          loading={loading}
+          error={error}
+          scrollMode={scrollMode}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          goToNextPage={goToNextPage}
+          goToPreviousPage={goToPreviousPage}
+          searchTerm={searchTerm}
+          selectedTag={selectedTag}
+          onTagSelect={setSelectedTag}
+        />
       </main>
-      
+
       <footer className="pt-3 mt-4 text-center border-top">
-        <p>
-          TP React Hooks - Blog &middot; {new Date().getFullYear()}
-        </p>
+        <p>TP React Hooks - Blog &middot; {new Date().getFullYear()}</p>
       </footer>
     </div>
   );
