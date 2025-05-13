@@ -86,7 +86,7 @@ J’ai créé un hook personnalisé useDebounce dans src/hooks/useDebounce.jsx p
 Le hook useLocalStorage (dans src/hooks/useLocalStorage.jsx) permet de garder des données même après rechargement de la page. Par exemple, il peut garder le thème ou une recherche précédente.
 
 ```
-![Screenshot 2025-05-08 210930](https://github.com/user-attachments/assets/9d122dbb-0d03-4f04-9ed4-ac0cb9bbe5a9)
+![Screenshot 2025-05-08 225436](https://github.com/user-attachments/assets/ebde5cf8-785e-4b6c-a3e6-d69053112a6f)
 
 ![Screenshot 2025-05-08 211046](https://github.com/user-attachments/assets/be02c3c4-7e6a-47db-8023-8e1fe752be10)
 ### Exercice 3 : Optimisation et Context
@@ -99,8 +99,16 @@ Le hook useLocalStorage (dans src/hooks/useLocalStorage.jsx) permet de garder de
 
 _Votre réponse pour l'exercice 3 :_
 ```
-Expliquez votre solution ici
-[Ajoutez vos captures d'écran]
+✅3.1 –Création du ThemeContext pour gérer le thème clair/sombre:
+J’ai créé un fichier src/context/ThemeContext.jsx qui utilise React.createContext() pour centraliser la gestion du thème.
+Le provider ThemeProvider utilise un hook personnalisé useLocalStorage pour mémoriser le thème (light ou dark), même après un rechargement de la page. Cela permet d’avoir un thème persistant.
+
+✅3.2 – Implémentation du composant ThemeToggle:
+Dans src/components/ThemeToggle.jsx, j’ai créé un bouton qui permet de basculer entre le thème clair et sombre.
+Il utilise le hook useTheme() fourni par le contexte pour accéder à theme et toggleTheme.
+
+✅3.3 – Optimisation avec useCallback et useMemo:
+Pour éviter des re-rendus inutiles, j’ai utilisé useCallback pour mémoriser la fonction toggleTheme, afin qu’elle ne soit pas recréée à chaque rendu.
 ```
 
 ### Exercice 4 : Fonctionnalités avancées
