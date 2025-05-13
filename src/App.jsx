@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 import './App.css';
 import PostList from './components/PostList';
 import PostSearch from './components/PostSearch';
@@ -11,6 +11,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState(null);
   const [scrollMode, setScrollMode] = useLocalStorage('scrollMode', 'pagination');
+  
 
   const { theme } = useTheme(); 
 
@@ -21,10 +22,13 @@ function App() {
     currentPage,
     totalPages,
     goToNextPage,
-    goToPreviousPage
+    goToPreviousPage,
+    setCurrentPage
   } = usePosts(scrollMode); 
 
- 
+  const handleLoadMore = useCallback(() => {
+    setCurrentPage((prev) => prev + 1);
+  }, [setCurrentPage]);
 
   return (
     <div className={`container py-4 ${scrollMode === 'pagination' ? 'pagination-mode' : 'infinite-mode'}`} style={{ maxWidth: '1400px' }}>
@@ -49,7 +53,12 @@ function App() {
       </header>
 
       <main>
-        <PostSearch onSearch={setSearchTerm} />
+      <PostSearch
+  onSearch={setSearchTerm}
+  selectedTag={selectedTag}
+  onTagSelect={setSelectedTag}
+/>
+
 
         {error && <div className="alert alert-danger">Erreur: {error}</div>}
         {loading && posts.length === 0 && <div className="alert alert-info">Chargement des articles...</div>}

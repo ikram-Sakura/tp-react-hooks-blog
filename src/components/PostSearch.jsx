@@ -3,18 +3,25 @@ import usePosts from '../hooks/usePosts';
 import useDebounce from '../hooks/useDebounce';
 import '../styles/PostSearch.css';
 
-const PostSearch = () => {
-  
+const PostSearch = ({ onSearch, selectedTag, onTagSelect }) => {
   const { posts, loading, error } = usePosts();
   const [searchTerm, setSearchTerm] = useState('');
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
-  
+  const allTags = Array.from(new Set(posts.flatMap(post => post.tags)));
 
-  const filteredPosts = posts.filter((post) =>
-    post.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
-    post.body.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
-  );
-  
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  const handleTagClick = (tag) => {
+    onTagSelect(tag === selectedTag ? null : tag); 
+  };
+
+  const filteredPosts = posts.filter((post) => {
+    const matchesSearch =
+      post.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+      post.body.toLowerCase().includes(debouncedSearchTerm.toLowerCase());
+    const matchesTag = selectedTag ? post.tags.includes(selectedTag) : true;
+    return matchesSearch && matchesTag;
+  });
+
   if (loading) return <div className="loading-spinner"></div>;
   if (error) return <div className="error-message">Error: {error}</div>;
 
@@ -27,7 +34,10 @@ const PostSearch = () => {
             type="text"
             placeholder="Search posts by title or content..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              onSearch(e.target.value);
+            }}
             className="search-input"
           />
           <button className="search-button">
@@ -37,22 +47,59 @@ const PostSearch = () => {
           </button>
         </div>
         <p className="results-count">{filteredPosts.length} articles found</p>
+        {selectedTag && (
+          <div className="tag-filter-section mb-4">
+          <h5 className="mb-2">Filtrer par tag :</h5>
+          <div className="tag-list">
+          {allTags.map((tag) => (
+            <span
+              key={tag}
+              className={`tag ${selectedTag === tag ? 'active' : ''}`}
+              onClick={() => onTagSelect(selectedTag === tag ? null : tag)}
+            >
+              {tag}
+            </span>
+          ))}
+          {selectedTag && (
+            <button
+            className="btn btn-sm btn-outline-primary ms-2 px-3"
+              onClick={() => onTagSelect(null)}
+            >
+              Effacer le filtre
+            </button>
+          )}
+
+          </div>
+        </div>
+        )}
       </div>
 
       <div className="search-results">
         {filteredPosts.map((post) => (
           <article key={post.id} className="search-result-card">
-            <h2 className="result-title">{post.title}</h2>
-            <p className="result-content">{post.body}</p>
-            <div className="result-meta">
-              <div className="result-tags">
-                {post.tags.map((tag) => (
-                  <span key={tag} className="tag">{tag}</span>
-                ))}
-              </div>
-              <span className="result-reactions">❤️ {post.reactions || 0}</span>
+          <img
+            src={`https://picsum.photos/seed/${post.id}/600/300`}
+            alt="Post preview"
+            className="post-image"
+          />
+          <h2 className="result-title">{post.title}</h2>
+          <p className="result-content">{post.body.slice(0, 150)}...</p>
+          <div className="result-meta">
+            <div className="result-tags">
+              {post.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className={`tag ${tag === selectedTag ? 'active' : ''}`}
+                  onClick={() => handleTagClick(tag)}
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
-          </article>
+            <span className="result-reactions">❤️ {post.reactions || 0}</span>
+          </div>
+        </article>
+        
         ))}
       </div>
     </div>

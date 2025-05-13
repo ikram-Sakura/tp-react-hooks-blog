@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import useIntersectionObserver from '../hooks/useIntersectionObserver';
 import '../styles/PostList.css';
 
 const PostList = ({
@@ -12,7 +13,8 @@ const PostList = ({
   scrollMode,
   searchTerm,
   selectedTag,
-  onTagSelect
+  onTagSelect,
+  onLoadMore
 }) => {
   const loaderRef = useRef();
 
@@ -49,7 +51,7 @@ const PostList = ({
         <p className="blog-subtitle">Discover the latest articles and insights</p>
       </header>
 
-      <div className="posts-grid">
+      <div className="posts-grid" >
         {filteredPosts.map((post) => (
           <article key={post.id} className="post-card">
             <div className="post-card-content">
@@ -104,6 +106,8 @@ const PostList = ({
           </button>
         </div>
       )}
+       {loading && <p>Loading...</p>}
+       {error && <p className="text-danger">{error}</p>}
     </div>
   );
 };
