@@ -55,10 +55,10 @@ Pour chaque exercice :
 _Votre réponse pour l'exercice 1 :_
 ```
 ✅ 1.1 Récupération des posts avec usePosts
-J'ai créé un hook personnalisé usePosts dans src/hooks/usePosts.js qui utilise useState et useEffect pour récupérer les posts depuis l'API https://dummyjson.com/posts. Les données sont stockées dans un état local et mises à jour lors du chargement.
+J'ai créé un hook personnalisé usePosts dans src/hooks/usePosts.jsx qui utilise useState et useEffect pour récupérer les posts depuis l'API https://dummyjson.com/posts. Les données sont stockées dans un état local et mises à jour lors du chargement.
 
 ✅ 1.2 Affichage des posts avec PostList
-Le composant PostList (dans src/components/PostList.js) reçoit les données des posts via props et les affiche sous forme de liste. Chaque post montre le titre, le corps du texte, les tags et le nombre de réactions.
+Le composant PostList (dans src/components/PostList.jsx) reçoit les données des posts via props et les affiche sous forme de liste. Chaque post montre le titre, le corps du texte, les tags et le nombre de réactions.
 
 ✅ 1.3 Recherche avec PostSearch
 Le composant PostSearch permet à l'utilisateur de rechercher des posts par titre ou contenu. Lorsqu'on tape dans l'input, un état de recherche est mis à jour et filtré dynamiquement sur les posts via le hook useEffect.
@@ -80,12 +80,14 @@ Le composant PostSearch permet à l'utilisateur de rechercher des posts par titr
 _Votre réponse pour l'exercice 2 :_
 ```
 ✅ 2.1 Délais avec useDebounce
-J’ai créé un hook personnalisé useDebounce dans src/hooks/useDebounce.js pour ralentir les mises à jour d’un état. Il est utilisé dans PostSearch pour éviter trop de recherches à chaque frappe.
+J’ai créé un hook personnalisé useDebounce dans src/hooks/useDebounce.jsx pour ralentir les mises à jour d’un état. Il est utilisé dans PostSearch pour éviter trop de recherches à chaque frappe.
 
 ✅ 2.2 Sauvegarde avec useLocalStorage
-Le hook useLocalStorage (dans src/hooks/useLocalStorage.js) permet de garder des données même après rechargement de la page. Par exemple, il peut garder le thème ou une recherche précédente.
+Le hook useLocalStorage (dans src/hooks/useLocalStorage.jsx) permet de garder des données même après rechargement de la page. Par exemple, il peut garder le thème ou une recherche précédente.
 
 ```
+![Screenshot 2025-05-08 210930](https://github.com/user-attachments/assets/9d122dbb-0d03-4f04-9ed4-ac0cb9bbe5a9)
+
 ![Screenshot 2025-05-08 211046](https://github.com/user-attachments/assets/be02c3c4-7e6a-47db-8023-8e1fe752be10)
 ### Exercice 3 : Optimisation et Context
 #### Objectif : Gérer le thème global et optimiser les rendus
