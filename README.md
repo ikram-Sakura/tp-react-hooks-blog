@@ -63,11 +63,11 @@ Le composant PostList (dans src/components/PostList.js) reçoit les données des
 ✅ 1.3 Recherche avec PostSearch
 Le composant PostSearch permet à l'utilisateur de rechercher des posts par titre ou contenu. Lorsqu'on tape dans l'input, un état de recherche est mis à jour et filtré dynamiquement sur les posts via le hook useEffect.
 ```
+![Screenshot 2025-05-08 210829](https://github.com/user-attachments/assets/1de69a08-6556-4783-9d7b-f8039eb12f3b)
+
 ![Screenshot 2025-04-28 181630](https://github.com/user-attachments/assets/9c3ad289-abc9-47cb-ab13-9edc3ce83e43)
 
 ![Screenshot 2025-04-28 181405](https://github.com/user-attachments/assets/8c09ce2e-4c13-48c0-a219-8ec83805ab10)
-
-![Screenshot 2025-05-08 210930](https://github.com/user-attachments/assets/8f2b0127-52a5-427f-893f-a2839f7d553e)
 
 ### Exercice 2 : Hooks Personnalisés
 #### Objectif : Créer des hooks réutilisables
@@ -79,10 +79,14 @@ Le composant PostSearch permet à l'utilisateur de rechercher des posts par titr
 
 _Votre réponse pour l'exercice 2 :_
 ```
-Expliquez votre solution ici
-[Ajoutez vos captures d'écran]
-```
+✅ 2.1 Délais avec useDebounce
+J’ai créé un hook personnalisé useDebounce dans src/hooks/useDebounce.js pour ralentir les mises à jour d’un état. Il est utilisé dans PostSearch pour éviter trop de recherches à chaque frappe.
 
+✅ 2.2 Sauvegarde avec useLocalStorage
+Le hook useLocalStorage (dans src/hooks/useLocalStorage.js) permet de garder des données même après rechargement de la page. Par exemple, il peut garder le thème ou une recherche précédente.
+
+```
+![Screenshot 2025-05-08 211046](https://github.com/user-attachments/assets/be02c3c4-7e6a-47db-8023-8e1fe752be10)
 ### Exercice 3 : Optimisation et Context
 #### Objectif : Gérer le thème global et optimiser les rendus
 
