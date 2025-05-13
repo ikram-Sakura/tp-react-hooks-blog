@@ -110,6 +110,12 @@ Il utilise le hook useTheme() fourni par le contexte pour accéder à theme et t
 ✅3.3 – Optimisation avec useCallback et useMemo:
 Pour éviter des re-rendus inutiles, j’ai utilisé useCallback pour mémoriser la fonction toggleTheme, afin qu’elle ne soit pas recréée à chaque rendu.
 ```
+![Screenshot 2025-05-13 140326](https://github.com/user-attachments/assets/85e7fb73-ec9e-426c-951a-81bc8db6830e)
+
+![Screenshot 2025-05-13 140355](https://github.com/user-attachments/assets/eb49d996-39e6-4975-818d-fd7e3e77d6fe)
+
+# after reloading the page  :
+![Screenshot 2025-05-13 140355](https://github.com/user-attachments/assets/a7df7e42-498c-421f-8a82-b08d66ae1373)
 
 ### Exercice 4 : Fonctionnalités avancées
 #### Objectif : Ajouter des fonctionnalités de chargement et détail
