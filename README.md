@@ -127,9 +127,26 @@ Pour éviter des re-rendus inutiles, j’ai utilisé useCallback pour mémoriser
 
 _Votre réponse pour l'exercice 4 :_
 ```
-Expliquez votre solution ici
-[Ajoutez vos captures d'écran]
+✅4.1 – Implémenter le chargement infini des posts avec useIntersectionObserver:
+J’ai créé un hook personnalisé useIntersectionObserver(ref, callback) qui détecte lorsqu’un élément devient visible à l’écran.
+
+✅4.2 –J’ai conçu un composant réutilisable appelé PostDetails, qui affiche les informations détaillées d’un article lorsque l’utilisateur le sélectionne. Ce composant est rendu de manière conditionnelle à partir de PostList grâce à l’état selectedPost.
+
+✅4.3 –J’ai intégré une fonctionnalité de filtrage par tag directement dans la section de recherche.
 ```
+![Screenshot 2025-05-13 204336](https://github.com/user-attachments/assets/1107c831-39d1-4606-904c-bc9b91901bf3)
+
+![Screenshot 2025-05-13 191649](https://github.com/user-attachments/assets/f45b4ba9-6027-4545-9e37-02cfa9030c86)
+
+![Screenshot 2025-05-13 193128](https://github.com/user-attachments/assets/504582a4-a024-4642-ad76-b0b949e717d7)
+
+![Screenshot 2025-05-13 204336](https://github.com/user-attachments/assets/ebd07af0-6a80-4201-bb14-fa888bd25b74)
+
+![Screenshot 2025-05-13 210327](https://github.com/user-attachments/assets/a9533a4b-b58c-4306-a059-c87da149ffa8)
+
+![Screenshot 2025-05-13 210231](https://github.com/user-attachments/assets/30a68d4d-81d5-486e-9a07-d8ab0a55f2b9)
+
+
 
 ## Structure détaillée du projet
 
